@@ -75,7 +75,7 @@ cstarc myprogram.cstar -c -s
 cstarc --version
 
 # Compile with linker
-cstarc myprogram.cstar -c --lstdcst
+cstarc myprogram.cstar --lstdcst
 ```
 
 ## Language Features
@@ -180,9 +180,9 @@ __init__:
     compile, run
 ```
 
-Process with `maketrans`:
+Process with `cstmake`:
 ```bash
-maketrans CStarMake.cmp
+cstmake CStarMake.cmp
 ```
 
 ## TextMate Grammar
@@ -202,7 +202,7 @@ A TextMate grammar is provided for syntax highlighting in VS Code and other edit
 
 - **cstcompiler.cpp** — Main transpiler: parses CStar, generates C++
 - **maketrans.cpp** — Build file processor for .cmp files
-- **i686runner.cpp** — Executor for i686 bytecode files
+- **i686runner.cpp** — Executor for i686 bytecode files (SCRAPPED)
 - **include/ext/stdcstar.h** — Core CStar standard library
 - **include/ext/sound.h** — Sound/music playback support
 - **include/stdcstio** — Keyboard and console I/O utilities
@@ -211,8 +211,8 @@ A TextMate grammar is provided for syntax highlighting in VS Code and other edit
 ## Platform Support
 
 - **Windows:** Full support (MSVC, GCC MinGW, Clang)
-- **Linux/Unix:** Full support (GCC, Clang)
-- **macOS:** Full support (Clang)
+- **Linux/Unix:** Full support (GCC, Clang) (Compiler needs update)
+- **macOS:** Full support (Clang) (Compiler needs update)
 
 ## Contributing
 
