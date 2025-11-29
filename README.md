@@ -1,4 +1,4 @@
-# The CStar Project
+![Alt text](CStarLogo.png) # The CStar Project
 
 A newly developed programming language that combines features of C++, Java, and C#.
 
