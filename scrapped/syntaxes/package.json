@@ -1,0 +1,43 @@
+{
+    "name": "cstar-cmp-grammar",
+    "displayName": "CStar CMP Grammar",
+    "publisher": "hoangviet",
+    "version": "0.0.1",
+    "engines": {
+        "vscode": "^1.60.0"
+    },
+    "categories": [
+        "Languages"
+    ],
+    "contributes": {
+        "languages": [
+            {
+                "id": "cstar-cmp",
+                "aliases": [
+                    "CStar CMP",
+                    "cmp"
+                ],
+                "extensions": [
+                    ".cmp"
+                ]
+            }
+        ],
+        "grammars": [
+            {
+                "language": "cstar-cmp",
+                "scopeName": "source.cstar-cmp",
+                "path": "./cstar-cmp.tmLanguage.json"
+            }
+        ]
+    },
+    "activationEvents": [
+        "onLanguage:cstar-cmp"
+    ],
+    "keywords": [
+        "cstar",
+        "cmp",
+        "grammar",
+        "language"
+    ],
+    "license": "MIT"
+}

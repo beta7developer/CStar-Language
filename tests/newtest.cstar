@@ -1,0 +1,9 @@
+
+
+#include <cstar.h>
+
+using int main()
+{
+	cpp20::println("Hello, World!");
+	return 0;
+}

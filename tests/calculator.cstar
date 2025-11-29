@@ -1,0 +1,56 @@
+#include <iostream>
+#include <ext/stdcstar.h>
+#include <cmath>
+#include <ext/defined.h>
+#include <string>
+#include <random_header>
+
+using namespace std;
+using namespace cstar25;
+using namespace cpp20;
+
+char op;
+stdcst::cstarstr error1 = "0x0002";
+stdcst::cstarstr error2 = "0x8745";
+double num1;
+double num2;
+double result;
+
+using int main() {
+	cout << "CALCULATOR" << el;
+	cout << "Type in an operation (+, -, *, /): ";
+	cin >> op;
+	cout << "\n#1: ";
+	cin >> num1;
+	cout << "\n#2: ";
+	cin >> num2;
+	while (true) {
+		switch (op) {
+			case '+':
+				result = num1 + num2;
+				cout << el << result;
+				break;
+			case '-':
+				result = num1 - num2;
+				cout << el << result;
+				break;
+			case '*':
+				result = num1 * num2;
+				cout << el << result;
+				break;
+			case '/':
+				if (num2 == 0) {
+					cout << el << error1;
+					return 1;
+				} else {
+					result = num1 / num2;
+					cout << el << result;
+				}
+				break;
+			default:
+				Console.Error("Unrecognized operation");
+				break;
+		}
+	}
+	sys.cexit(0);
+}

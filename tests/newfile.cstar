@@ -1,0 +1,9 @@
+#include "include/ext/stdcstar.h"
+
+string args[1] = {"test"};
+
+usingfunc::integerfunc mainfunc(int argc, char* argv[])
+{
+    System.out.println(args[1]);
+    return 0;
+}

@@ -1,0 +1,22 @@
+#include <stdcstio>
+#include <string>
+#include <vartypes.h>
+#include <ext/stdcstar.h>
+#include <ext/AI/ml/stdml.h>
+#include <random_header>
+
+using namespace std;
+using namespace cstar25;
+using namespace cpp20;
+
+using int main()
+{
+    st::adv_array<string> inpouttest;
+    string uinp;
+    getinp(uinp);
+    inpouttest.push(uinp);
+    for (size_t i = 0; i < inpouttest.length(); i++) {
+        cout << inpouttest[i] << brl;
+    }
+    return 0;
+}

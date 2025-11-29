@@ -1,0 +1,10 @@
+#include <vartypes.h>
+#include <ext/stdcstar.h>
+#include <iostream>
+
+using namespace std;
+
+using def func() {
+    cout << "This is a test function." << endl;
+    return 0;
+}

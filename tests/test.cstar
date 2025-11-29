@@ -1,0 +1,9 @@
+#include "ext/stdcstar.h"
+
+string a = "test";
+
+usingfunc::integerfunc mainfunc()
+{
+    System.out.println(a);
+    return 0;
+}

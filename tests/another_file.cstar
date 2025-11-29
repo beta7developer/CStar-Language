@@ -1,0 +1,11 @@
+#include "include/ext/stdcstar.h"
+#include <iostream>
+
+using namespace std;
+
+usingfunc::integerfunc mainfunc()
+{
+    System.out.println("Hello");
+    Console.WriteLine(1);
+    return 0;
+}

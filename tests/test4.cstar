@@ -1,0 +1,32 @@
+#include <ext/stdcstar.h>
+#include <csignal>
+
+returnf int newf(int a, int b) {
+    return a + b;
+}
+
+returnf void signaldetect(int signum) {
+    Console.WriteLine("Interrupt signal detected");
+    if (signum == SIGSEGV) {
+        Console.WriteLine("Segmentation fault (invalid memory reference)");
+    } else if (signum == SIGFPE) {
+        Console.WriteLine("Floating point exception");
+    } else if (signum == SIGINT) {
+        Console.WriteLine("Interrupt from keyboard");
+    } else if (signum == SIGABRT) {
+        Console.WriteLine("Abort signal from abort()");
+    } else {
+        Console.WriteLine("Unknown signal");
+    }
+    exit(signum);
+}
+
+using int main() {
+    int b;
+    int a = newf(5, 10);
+    Console.WriteLine(a);
+    Console.ReadLine(b);
+    callsignal(SIGSEGV);
+    signal(SIGSEGV, signaldetect);
+    return 0;
+}

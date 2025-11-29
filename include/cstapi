@@ -1,0 +1,133 @@
+/*
+CStar API - Provides various utility classes and functions for CStar
+Copyright (c) November 2025 Hoang Viet. All rights reserved.
+*/
+// #ifndef RANDOM_HEADER
+// #define RANDOM_HEADER
+// #define RANDOM_HEADER_VERSION "1.0.0"
+
+#ifndef CSTAPI
+#define CSTAPI
+#define CSTAPI_VERSION "1.1.0"
+
+#include <iostream>
+#include <string>
+#include <stdexcept>
+#include <cstddef>
+#include <cstdlib>
+#include <algorithm>
+
+namespace st {
+    template <typename T>
+    class adv_array {
+    private:
+        T* data;
+        std::size_t sz;
+        std::size_t cap;
+
+        void grow_to(std::size_t newcap) {
+            if (newcap <= cap) return;
+            T* newdata = new T[newcap];
+            for (std::size_t i = 0; i < sz; ++i) newdata[i] = std::move(data[i]);
+            delete[] data;
+            data = newdata;
+            cap = newcap;
+        }
+
+    public:
+        adv_array() noexcept : data(nullptr), sz(0), cap(0) {}
+        ~adv_array() { delete[] data; }
+
+        // copy
+        adv_array(const adv_array& other)
+            : data(nullptr), sz(other.sz), cap(other.cap)
+        {
+            if (cap) {
+                data = new T[cap];
+                for (std::size_t i = 0; i < sz; ++i) data[i] = other.data[i];
+            }
+        }
+        adv_array& operator=(const adv_array& other) {
+            if (this == &other) return *this;
+            T* newdata = nullptr;
+            if (other.cap) {
+                newdata = new T[other.cap];
+                for (std::size_t i = 0; i < other.sz; ++i) newdata[i] = other.data[i];
+            }
+            delete[] data;
+            data = newdata;
+            sz = other.sz;
+            cap = other.cap;
+            return *this;
+        }
+
+        // move
+        adv_array(adv_array&& o) noexcept : data(o.data), sz(o.sz), cap(o.cap) {
+            o.data = nullptr; o.sz = 0; o.cap = 0;
+        }
+        adv_array& operator=(adv_array&& o) noexcept {
+            if (this == &o) return *this;
+            delete[] data;
+            data = o.data; sz = o.sz; cap = o.cap;
+            o.data = nullptr; o.sz = 0; o.cap = 0;
+            return *this;
+        }
+
+        // minimal API (intentionally NOT full vector)
+        void push(const T& value) {
+            if (sz >= cap) grow_to(cap == 0 ? 4 : cap * 2);
+            data[sz++] = value;
+        }
+        void pop() noexcept { if (sz) --sz; }
+
+        T& operator[](std::size_t index) {
+            if (index >= sz) throw std::out_of_range("adv_array index out of range");
+            return data[index];
+        }
+        const T& operator[](std::size_t index) const {
+            if (index >= sz) throw std::out_of_range("adv_array index out of range");
+            return data[index];
+        }
+
+        std::size_t length() const noexcept { return sz; }
+
+        void dump() const {
+            std::cout << "[";
+            for (std::size_t i = 0; i < sz; ++i) {
+                std::cout << data[i];
+                if (i + 1 < sz) std::cout << ", ";
+            }
+            std::cout << "]\n";
+        }
+    };
+} // namespace st
+
+class r {
+public:
+    void yes(const std::string& message = "y") {
+        while (true) {
+            std::cout << message << "\n";
+        }
+    }
+};
+
+class LAUNCHER {
+public:
+    void launch(const std::string& file) {
+        std::system(file.c_str());
+    }
+};
+
+class SYS {
+public:
+    void cexit(int code) {
+        std::exit(code);
+    }
+};
+
+// make globals inline to avoid ODR/linker problems
+inline r random;
+inline LAUNCHER launcher;
+inline SYS sys;
+
+#endif // CSTAPI

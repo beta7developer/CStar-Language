@@ -1,0 +1,79 @@
+{
+  "scopeName": "source.cmp",
+  "name": "CStar Make (.cmp)",
+  "fileTypes": ["cmp"],
+  "patterns": [
+    {
+      "name": "comment.line.number-sign.cmp",
+      "match": "^\\s*#.*$"
+    },
+    {
+      "name": "keyword.preprocessor.cmp",
+      "match": "^\\s*#(ifdef|ifndef|else|endif|define|undef)\\b.*$"
+    },
+    {
+      "name": "keyword.control.cmp",
+      "match": "\\b(def)\\b(?=\\s+[A-Za-z_][A-Za-z0-9_]*\\s*:) "
+    },
+    {
+      "name": "entity.name.function.cmp",
+      "match": "^\\s*def\\s+([A-Za-z_][A-Za-z0-9_]*)\\s*:",
+      "captures": {
+        "1": { "name": "entity.name.function.cmp" }
+      }
+    },
+    {
+      "name": "entity.name.section.cmp",
+      "match": "^\\s*(__init__)\\s*:",
+      "captures": { "1": { "name": "entity.name.section.cmp" } }
+    },
+    {
+      "name": "meta.assignment.cmp",
+      "match": "^\\s*\\(\\s*([A-Za-z_][A-Za-z0-9_]*)\\s*\\)\\s*([A-Za-z_][A-Za-z0-9_]*)\\s*(=)\\s*(\"[^\"]*\"|'[^']*'|[^#\\r\\n]+)",
+      "captures": {
+        "1": { "name": "storage.type.cmp" },
+        "2": { "name": "variable.other.cmp" },
+        "3": { "name": "keyword.operator.assignment.cmp" },
+        "4": { "name": "string.unquoted.cmp" }
+      }
+    },
+    {
+      "name": "support.function.console.cmp",
+      "match": "console\\s*\\(\\s*\"([^\"]*)\"\\s*\\)",
+      "captures": {
+        "0": { "name": "support.function.console.cmp" },
+        "1": { "name": "string.quoted.double.cmp" }
+      }
+    },
+    {
+      "name": "string.quoted.double.cmp",
+      "begin": "\"",
+      "beginCaptures": { "0": { "name": "punctuation.definition.string.begin.cmp" } },
+      "end": "\"",
+      "endCaptures": { "0": { "name": "punctuation.definition.string.end.cmp" } },
+      "patterns": [
+        {
+          "name": "variable.other.interpolated.cmp",
+          "match": "\\$\\([A-Za-z_][A-Za-z0-9_]*\\)"
+        }
+      ]
+    },
+    {
+      "name": "variable.other.cmp",
+      "match": "\\$\\(([A-Za-z_][A-Za-z0-9_]*)\\)",
+      "captures": {
+        "1": { "name": "variable.other.cmp" }
+      }
+    },
+    {
+      "name": "constant.numeric.cmp",
+      "match": "\\b\\d+(?:\\.\\d+)?\\b"
+    },
+    {
+      "name": "punctuation.separator.cmp",
+      "match": "[,:=]"
+    }
+  ],
+  "foldingStartMarker": "^\\s*(def\\b.*:|#ifdef\\b|#if\\b)",
+  "foldingStopMarker": "^\\s*(#endif\\b|__init__\\s*:)"
+}

@@ -1,0 +1,39 @@
+{
+    "version": "1.0.0",
+    "cstarc.Configurations": [
+        {
+            "defaultFileExtension": "*.cstarc"
+        },
+        {
+            "version": "1.4.3",
+            "defaultPath": "D:\\CStar\\bin\\windows\\cstarc.exe",
+            "debuggerPath": "D:\\CStar\\bin\\debug\\cstdb.exe"
+        },
+        {
+            "defaultCommand.Configurations": [
+                "./cstarc",
+                "./cstarc {file} -c",
+                {
+                    "callDebugger": [
+                        "./cstdb",
+                        "./cstdb {file} -r"
+                    ]
+                }
+            ]
+        },
+        {
+            "defaultTerminalWindows:": [
+                // This is optional for most users.
+                // As always, the default is 'terminal.exe'
+                // Choose any terminal you want.
+                "terminal.exe"
+            ]
+        }
+    ],
+    "intelliSenseMode": false,
+    "environment": "VSCode",
+    "enviroment.version": "1.103.1"
+    /*
+    Please get JSON5 for comment support.
+    */
+}

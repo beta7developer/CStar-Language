@@ -1,0 +1,13 @@
+#include <ext/stdcstar.h>
+#include <vartypes.h>
+#include <iostream>
+
+#ifndef IGNORE_DEF_ULLI
+#define IGNORE_DEF_ULLI
+ULLI somek = 2147483647;
+#endif
+
+using int main() {
+	Console.WriteLine(somek);
+	rtrn 0;
+}

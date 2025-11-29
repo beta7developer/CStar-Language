@@ -1,0 +1,99 @@
+/*
+Kind of an AI, but it's just I/O. I need to ML it.
+How do I make an AI in CStar?????
+Many libraries, but uh, that will need me to add more argc support in the compiler.
+You know what, this is good enough for now.
+I will make my own ML library in CStar later.
+
+Copyright (c) 2025 Hoang Viet. All rights reserved.
+*/
+#include <iostream>
+#include <ext/stdcstar.h>
+#include <random_header>
+#include <ext/defined.h>
+#include <string>
+#include <vector>
+#include <map>
+
+using namespace std;
+using namespace cstar25;
+using namespace cpp20;
+using namespace stdcst;
+
+using int main() {
+    resetConsole();
+    vector<string> beginning_msgs = {
+        "Hello! I am an AI coded in CStar.",
+        "I can help you with various tasks.",
+        "Feel free to ask me anything!"
+    };
+    map<int, string> example_asking = {
+        {1, "What is CStar?"},
+        {2, "Is it compiled or interpreted?"},
+        {3, "Who created you?"},
+        {4, "What name is the standard header called?"}
+    };
+    for (const auto& msg : beginning_msgs) {
+        Console.WriteLine(msg);
+    }
+    Console.WriteLine("Here are some example questions you can ask me:");
+    for (const auto& [num, question] : example_asking) {
+        Console.WriteLine(to_string(num) + ". " + question);
+    }
+    Console.WriteLine("Ask me anything!");
+    string user_input;
+    Console.ReadLine(user_input);
+    string userStr = user_input;
+    // trim simple whitespace (front/back)
+    auto trim = [](std::string &s) {
+        size_t a = 0;
+        while (a < s.size() && isspace((unsigned char)s[a])) ++a;
+        size_t b = s.size();
+        while (b > a && isspace((unsigned char)s[b-1])) --b;
+        s = s.substr(a, b - a);
+    };
+    trim(userStr);
+
+    // helper lower-case
+    auto lower = [](std::string s){
+        std::transform(s.begin(), s.end(), s.begin(), [](unsigned char c){ return std::tolower(c); });
+        return s;
+    };
+
+    // try numeric key match first
+    bool handled = false;
+    try {
+        int key = std::stoi(userStr);
+        auto it = example_asking.find(key);
+        if (it != example_asking.end()) {
+            userStr = it->second; // normalize to the mapped question text
+            handled = true;
+        }
+    } catch (...) { /* not a number */ }
+
+    // if not numeric match, try to find a matching value (case-insensitive)
+    if (!handled) {
+        std::string target = lower(userStr);
+        for (const auto& [k, v] : example_asking) {
+            if (lower(v) == target) {
+                userStr = v;
+                handled = true;
+                break;
+            }
+        }
+    }
+
+    Console.WriteLine("You asked: " + userStr);
+
+    if (userStr == "What is CStar?" || userStr == example_asking[1]) {
+        Console.WriteLine("CStar is a programming language that combines features of C++ and C#.");
+    } else if (userStr == "Is it compiled or interpreted?" || userStr == example_asking[2]) {
+        Console.WriteLine("CStar is a compiled language, but it also has an interpreter for quick testing. Also, it can be transpiled to C++.");
+    } else if (userStr == "Who created you?" || userStr == example_asking[3]) {
+        Console.WriteLine("I was created by Beta7Developer, the creator of CStar.");
+    } else if (userStr == "What name is the standard header called?" || userStr == example_asking[4]) {
+        Console.WriteLine("The standard header in CStar is called <ext/stdcstar.h>.");
+    } else {
+        Console.WriteLine("That's an interesting question! I'll need to learn more to answer that.");
+    }
+}

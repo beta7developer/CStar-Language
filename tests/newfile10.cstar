@@ -1,0 +1,41 @@
+#include <iostream>
+#include <vector>
+#include <string>
+#include <stdio.h>
+#include <ext/stdcstar.h>
+#include <random_header>
+#include <cmath>
+#include <ext/defined.h>
+
+using namespace std;
+using namespace cstar25;
+using namespace cpp20;
+
+returnf int add(int a, int b) {
+	return a + b;
+}
+
+returnf int sub(int a, int b) {
+	return a - b;
+}
+
+returnf void printmsg(string msg) {
+	cout << msg;
+}
+
+char* message = "Hello";
+string messagestr = "Hello";
+
+using int main() {
+	delay.ms(1000);
+	int x, y;
+	cout << "Input: ";
+	cin >> x >> y;
+	cout << el << add(x, y) << space << sub(x, y) << space;
+	printmsg(message);
+	cout << el;
+	printf("%s", message);
+	cout << el << messagestr << el;
+	printf("%.17f\n", sqrt(2));
+	rtrn 0;
+}

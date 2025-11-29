@@ -1,0 +1,7 @@
+#include <ext/stdcstar.h>
+
+using int main() { 
+	resetConsole();
+	return 0;
+}
+

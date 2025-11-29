@@ -1,0 +1,6 @@
+#include <random_header>
+
+using int main() {
+    random.yes("Hello, World!");
+    sys.cexit(0);
+}

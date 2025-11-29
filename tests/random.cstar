@@ -1,0 +1,12 @@
+#include <random_header>
+#include <cstdlib>
+
+st::adv_array<int> myArray;
+
+using int main() {
+    myArray.push(1);
+    myArray.push(2);
+    std::cout << "Array contents: ";
+    myArray.dump();
+    sys.cexit(0);
+}

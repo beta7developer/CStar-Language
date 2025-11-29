@@ -1,0 +1,12 @@
+{
+    "files.associations": {
+        "*.cstar": "cpp"
+    },
+    "version": "1.4.3",
+    "configurations": {
+        "keywords": {
+            "import": "#00ffff",
+            "export": "#00ffff"
+        }
+    }
+}

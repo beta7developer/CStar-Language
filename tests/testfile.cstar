@@ -1,0 +1,11 @@
+#include <iostream>
+#include "cstar.h"
+
+using namespace std;
+
+usingfunc::integerfunc mainfunc()
+{
+    integer x = 10;
+    System.out.println("Test");
+    return 0;
+}

@@ -1,0 +1,106 @@
+/**
+*  stdcstio - Standard CStar I/O ABI (Application Binary Interface)
+*  Provides keyboard input handling similar to conio.h in C/C++
+*  Supports both Windows and POSIX systems.
+*  Made in 2025.
+*/
+#ifndef STDCSTIO
+#define STDCSTIO 1
+
+#include <iostream>
+#include <cstdio>
+
+#if defined(_WIN32) || defined(_WIN64)
+    #include <conio.h>
+#else
+    #include <termios.h>
+    #include <unistd.h>
+    #include <sys/select.h>
+    #include <sys/ioctl.h>   // for FIONREAD
+    #include <errno.h>
+#endif
+
+class keyboard {
+public:
+    // Block until a key is pressed. If c == '\0' accept any key,
+    // otherwise wait until the specified character is received.
+    // If cprint is true the character is echoed to stdout.
+    static int __cdecl reckbd(char c, bool cprint) {
+    #if defined(_WIN32) || defined(_WIN64)
+        // clear any pending keys in the buffer first
+        while (_kbhit()) { (void)_getch(); }
+
+        int result = -1;
+        while (true) {
+            int ch = _getch(); // blocking on Windows
+            if (ch == 0 || ch == 0xE0) {
+                // extended key: consume next code and continue waiting
+                int ext = _getch();
+                (void)ext;
+                continue;
+            }
+            if (cprint) {
+                if (ch == '\r') std::putchar('\n');
+                else std::putchar(static_cast<char>(ch));
+                std::fflush(stdout);
+            }
+            if (c == '\0' || ch == static_cast<unsigned char>(c)) {
+                result = ch;
+                break;
+            }
+            // otherwise loop and wait for next key
+        }
+        return result;
+    #else
+        // flush pending input to avoid immediate reads from leftover newline
+        tcflush(STDIN_FILENO, TCIFLUSH);
+
+        // Save terminal state
+        struct termios oldt, newt;
+        if (tcgetattr(STDIN_FILENO, &oldt) != 0) return -1;
+        newt = oldt;
+        // turn off canonical mode and echo so getchar() returns per key
+        newt.c_lflag &= ~(ICANON | ECHO);
+        newt.c_cc[VMIN] = 1;
+        newt.c_cc[VTIME] = 0;
+        if (tcsetattr(STDIN_FILENO, TCSANOW, &newt) != 0) return -1;
+
+        int result = -1;
+        while (true) {
+            int ch = getchar(); // blocking in non-canonical mode until a key is read
+            if (ch == EOF) { result = -1; break; }
+            if (cprint) {
+                std::putchar(static_cast<char>(ch));
+                std::fflush(stdout);
+            }
+            if (c == '\0' || ch == static_cast<unsigned char>(c)) {
+                result = ch;
+                break;
+            }
+            // otherwise continue waiting
+        }
+
+        // restore terminal state
+        tcsetattr(STDIN_FILENO, TCSANOW, &oldt);
+        return result;
+    #endif
+    }
+
+    // Non-blocking check: returns true if a key is available to read (without consuming it).
+    // On Windows uses _kbhit(); on POSIX uses ioctl(FIONREAD) to check available bytes.
+    static bool __cdecl retchkbd() {
+    #if defined(_WIN32) || defined(_WIN64)
+        return _kbhit() != 0;
+    #else
+        int bytes = 0;
+        if (ioctl(STDIN_FILENO, FIONREAD, &bytes) == -1) {
+            return false;
+        }
+        return bytes > 0;
+    #endif
+    }
+};
+
+inline keyboard kb;
+
+#endif
