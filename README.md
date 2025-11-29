@@ -185,7 +185,7 @@ Process with `cstmake`:
 cstmake CStarMake.cmp
 ```
 
-## TextMate Grammar
+## TextMate Grammar (DO NOT USE, SCRAPPED UNTIL 2027)
 
 A TextMate grammar is provided for syntax highlighting in VS Code and other editors.
 
