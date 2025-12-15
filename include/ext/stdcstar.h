@@ -27,13 +27,19 @@
     #define WIN32_LEAN_AND_MEAN  // Exclude rarely-used Windows stuff
     #define NOMINMAX              // Prevent Windows min/max macros
     #include <windows.h>
+    typedef HMODULE dl_handle_t;
+    #define DL_HANDLE_ERROR NULL
     // previously: #undef byte
+#else
+    #include <dlfcn.h>
+    typedef void* dl_handle_t;
+    #define DL_HANDLE_ERROR NULL
 #endif
 
 #define EXIT_S 0
 #define EXIT_F 1
 
-typedef const char* POSIXSTR;
+// typedef const char* POSIXSTR;
 
 // Use a small inline C array of C-strings for identifiers to avoid static init order issues
 inline constexpr const char* CSTAR_IDENTIFIERS[] = { "#s", "#d", "#f", "#c" };
@@ -139,6 +145,57 @@ public:
         }
     }
 };
+
+typedef void (*PluginFuncType)();
+
+using CSTRFORLIB = const std::string;
+
+static void __cdecl importlib(CSTRFORLIB& library, CSTRFORLIB& funcName) {
+    dl_handle_t handle = DL_HANDLE_ERROR;
+    // --- Step 1: Open the library file (Platform Specific) ---
+#ifdef _WIN32
+    handle = LoadLibraryA(library.c_str());
+    if (handle == DL_HANDLE_ERROR) {
+        std::cerr << "ERROR: Windows LoadLibrary failed for " << library << std::endl;
+        return;
+    }
+#else
+    handle = dlopen(library.c_str(), RTLD_LAZY);
+    if (handle == DL_HANDLE_ERROR) {
+        std::cerr << "ERROR: dlopen failed for " << library << ": " << dlerror() << std::endl;
+        return;
+    }
+#endif
+
+    std::cout << "Successfully loaded library: " << library << std::endl;
+
+    // --- Step 2: Get function pointer (Platform Specific) ---
+    PluginFuncType func = nullptr;
+
+#ifdef _WIN32
+    func = (PluginFuncType)GetProcAddress(handle, funcName.c_str());
+#else
+    // Need a cast via void* to satisfy the C++ compiler when using dlsym results
+    void* raw_func_ptr = dlsym(handle, funcName.c_str());
+    func = (PluginFuncType)raw_func_ptr;
+#endif
+
+    if (!func) {
+        std::cerr << "ERROR: Could not find function symbol: " << funcName << std::endl;
+    } else {
+        // --- Step 3: Execute the function ---
+        std::cout << "Executing imported function: " << funcName << std::endl;
+        func();
+    }
+
+    // --- Step 4: Close the library (Platform Specific) ---
+#ifdef _WIN32
+    FreeLibrary(handle);
+#else
+    dlclose(handle);
+#endif
+    std::cout << "Closed library handle." << std::endl;
+}
 
 // inline globals to avoid ODR/linker problems
 inline CONSOLE Console;

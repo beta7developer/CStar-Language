@@ -10,9 +10,9 @@ usingfunc::integerfunc mainfunc() {
     
     	POSIXSTR m = "Quite a complex function.";
     	__stdchar_t ch = 'A';
-    	windows::__dword dw = 1;
-    	windows::__qword qw;
-    	windows::__qword qdw = 0x7FFFFFFF;
+    	__dword dw = 1;
+    	__qword qw;
+    	__qword qdw = 0x7FFFFFFF;
     	posix_util.posixprintf(true, "#d", qdw);
     	play_sound("D:/Downloads/windows-7-critical-stop.wav");
     	posix_util.posixscanf("#d", qw);

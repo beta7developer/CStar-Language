@@ -1,0 +1,8 @@
+#include <ext/stdcstar.h>
+
+using namespace std;
+
+using int main() {
+    add(2, 3);
+    return EXIT_S;
+}
